@@ -10,8 +10,8 @@ namespace Inheritance
     {
         static void Main(string[] args)
         {
-            Console.Clear();
             Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
 
             Car.numberAvailable = 0;
@@ -20,50 +20,68 @@ namespace Inheritance
             List<Car> carlot = new List<Car>();
 
 
-            Car car1 = new Car("Ford", "Mustang", 1111, 2000, 30000, false, carlot);
-            Car car2 = new Car("BMW", "Continental", 1222, 2005, 45000, false, carlot);
-            Car car3 = new Car("Jaguar", "r-models", 1333, 2009, 60000, false, carlot);
+            Car car1 = new Car("Ford", "Mustang", "1111", 2000, 30000, false, carlot);
+            Car car2 = new Car("BMW", "Continental", "1222", 2005, 45000, false, carlot);
+            Car car3 = new Car("Jaguar", "r-models", "1333", 2009, 60000, false, carlot);
+ 
 
             string selection = "";
 
-            Console.WriteLine("Would you like to enter a car press <a>");
-            Console.WriteLine("Would you like view carlot press <d>");
-            Console.WriteLine("Press e to exit");
-            selection = Console.ReadLine();
 
             do
             {
                 switch (selection)
                 {
-
                     case "a":
-                        Car car4 = new Car(false, carlot);
                         Console.Clear();
+                        Car car4 = new Car(false, carlot);
+                        Console.WriteLine("Press any key to continue...");
                         selection = Console.ReadLine();
-                       
                         break;
+
 
                     case "d":
                         Console.Clear();
                         Car.displayCars(carlot);
-                        Console.WriteLine("Press any key to continue...");
+                        Console.WriteLine("Hit Tab to continue...");
                         selection = Console.ReadLine();
 
-                       break;
+                        break;
 
-                    default:
+
+                    case "t":
+
+                    Console.Clear();
+                    Car.totalValue(carlot);
+                    Console.WriteLine("Hit Tab to continue...");
+                    selection = Console.ReadLine();
+
+                        break;
+
+                    case "s":
 
                         Console.Clear();
-                        Console.WriteLine("Would you like to enter a car press a");
+                        Console.WriteLine("What make do you wish to sell");
+                        String make = Console.ReadLine();
+                        Car.sellCar(carlot, make);
+                        selection = Console.ReadLine();
+                        break;
+
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("Would you like to enter a car press <a>");
                         Console.WriteLine("Would you like view carlot press <d>");
-                        Console.WriteLine("Press e to exit");
+                        Console.WriteLine("Would you like to view the total value <t>");
+                        Console.WriteLine("To sell a car select <s>");
+                        Console.WriteLine("Press <e> to exit");
                         selection = Console.ReadLine();
                         continue;
+
                 }
             } while (selection != "e");
 
 
-            
+
 
         }
     }
@@ -74,7 +92,7 @@ namespace Inheritance
 
         public string make;
         public string model;
-        public int reg;
+        public string reg;
         public int year;
         public int price;
         public bool sold;
@@ -83,7 +101,7 @@ namespace Inheritance
 
 
 
-        public Car(string make, string model, int reg, int year, int price, bool sold, List<Car> mycars)
+        public Car(string make, string model, string reg, int year, int price, bool sold, List<Car> mycars)
         {
 
             this.make = make;
@@ -91,9 +109,17 @@ namespace Inheritance
             this.reg = reg;
             this.year = year;
             this.price = price;
-            this.sold = false;
-            mycars.Add(this);
+            this.sold = sold;
+            if (sold == false)
+            {
+                mycars.Add(this);
+            }
+            else
+            {
+                mycars.Remove(this);
+            }
             Car.numberAvailable++;
+
 
         }
 
@@ -105,12 +131,13 @@ namespace Inheritance
             Console.WriteLine("Please enter a car model?");
             model = Console.ReadLine();
             Console.WriteLine("Please enter a reg number?");
-            reg = Convert.ToInt32(Console.ReadLine());
+            reg = Console.ReadLine();
             Console.WriteLine("Please enter a price?");
             price = Convert.ToInt32(Console.ReadLine());
             this.sold = false;
             mycars.Add(this);
             Car.numberAvailable++;
+           
         }
 
 
@@ -120,10 +147,13 @@ namespace Inheritance
         public static int valueOfCurrentStock;
 
         //method1 this will change to true/false
-        public void sellCar(int price)
+        public static void sellCar(List<Car> carlot, string make)
         {
-            this.sold = true;
-            this.price = price;
+            var item = carlot.FirstOrDefault(o => o.model == make);
+            if (item != null)
+                item.price = 0;
+            item.sold = true;
+
         }
 
         //method2 check availability the test is based on a boolean true or false
@@ -142,18 +172,19 @@ namespace Inheritance
 
         //method3 get total stock value
 
-        public static void totalValue(List<Car> allcars)
+        public static void totalValue(List<Car> carlot)
 
         {
-            foreach (Car c in allcars)
+            foreach (Car c in carlot)
             {
-                if (!c.sold)
+                if (c.sold == false)
                 {
                     valueOfCurrentStock += c.price;
                 }
 
             }
             Console.WriteLine("Total value of all stock is {0}", valueOfCurrentStock);
+            valueOfCurrentStock = 0;
         }
 
         // display all reamining cars available...
@@ -162,12 +193,13 @@ namespace Inheritance
         {
             foreach (Car c in carlot)
             {
-                if (!c.sold)
+                if (c.sold == false)
                 {
                     Console.WriteLine(c.make + " " + c.model);
                 }
 
             }
+
 
         }
 
