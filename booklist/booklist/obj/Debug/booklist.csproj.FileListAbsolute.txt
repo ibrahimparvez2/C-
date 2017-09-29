@@ -1,0 +1,6 @@
+c:\users\student\documents\visual studio 2015\Projects\booklist\booklist\bin\Debug\booklist.exe.config
+c:\users\student\documents\visual studio 2015\Projects\booklist\booklist\bin\Debug\booklist.exe
+c:\users\student\documents\visual studio 2015\Projects\booklist\booklist\bin\Debug\booklist.pdb
+c:\users\student\documents\visual studio 2015\Projects\booklist\booklist\obj\Debug\booklist.exe
+c:\users\student\documents\visual studio 2015\Projects\booklist\booklist\obj\Debug\booklist.pdb
+C:\Users\student\Documents\Visual Studio 2015\Projects\booklist\booklist\obj\Debug\booklist.csprojResolveAssemblyReference.cache
